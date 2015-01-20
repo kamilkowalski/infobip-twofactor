@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/visualitypl/infobip-twofactor.svg?branch=master)](https://travis-ci.org/visualitypl/infobip-twofactor.svg?branch=master)
 
-
+[![Gem Version](https://badge.fury.io/rb/infobip-twofactor.svg)](http://badge.fury.io/rb/infobip-twofactor)
 
 # Infobip::Twofactor
 
