@@ -18,6 +18,8 @@ require 'bundler/setup'
 Bundler.setup
 
 require 'infobip/twofactor'
+# Dir["spec/support/**/*.rb"].each { |f| require f }
+require './spec/support/fakeweb_api_responses.rb'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
