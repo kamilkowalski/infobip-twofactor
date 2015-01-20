@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/visualitypl/infobip-twofactor.svg?branch=master)](https://travis-ci.org/visualitypl/infobip-twofactor.svg?branch=master)
+
+
+
 # Infobip::Twofactor
 
 Simple wrapper gem for Infobip two factor authentication service
