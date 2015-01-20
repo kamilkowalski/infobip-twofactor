@@ -1,0 +1,15 @@
+language: ruby
+cache: bundler
+
+rvm:
+  - ruby
+  - 2.1.2
+
+script: 'bundle exec rake'
+
+notifications:
+  email:
+    recipients:
+      - knx@digitalheads.pl
+    on_failure: change
+    on_success: never
