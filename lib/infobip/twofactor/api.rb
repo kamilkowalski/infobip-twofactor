@@ -6,7 +6,6 @@ module Infobip
     class API
 
       attr_reader :api_key
-      attr_reader :pin_id
       attr_reader :application_id
       attr_reader :message_id
 
@@ -44,9 +43,9 @@ module Infobip
         response
       end
 
-      def verify_pin(pin)
-        raise "Missing pin id" unless @pin_id
-        response = @api.pin(@pin_id).verify._post(pin: pin)
+      def verify_pin(pin_id, pin)
+        raise "Missing pin id" unless pin_id
+        response = @api.pin(pin_id).verify._post(pin: pin)
         raise "Malformed two factor API response - no verified field" unless (response.respond_to?(:verified))
         response
       end

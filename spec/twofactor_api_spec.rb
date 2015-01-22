@@ -28,14 +28,9 @@ describe Infobip::Twofactor::API do
     expect(response[:smsStatus]).to eq "MESSAGE_SENT"
   end
 
-  it "should store pin_id value" do
-    response = subject.send_pin("48790809242")
-    expect(subject.pin_id).to eq "2B29B71922B37D3C93F8CEBB85B9E3CF"
-  end
-
   it "should create a valid Verify PIN request, given valid params" do
     response = subject.send_pin("48790809242")
-    response = subject.verify_pin("1234")
+    response = subject.verify_pin("2B29B71922B37D3C93F8CEBB85B9E3CF", "1234")
     expect(response[:verified]).to eq true
   end
 
