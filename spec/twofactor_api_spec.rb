@@ -9,10 +9,9 @@ describe Infobip::Twofactor::API do
   before do
     @configuration = YAML.load_file("configuration.yml")
 
-    FakeWeb.register_uri(:post, "http://ippdok:4%40SkK2*_@oneapi-test.infobip.com/2fa/1/api-key",  status: ["200", "OK"], body: api_key_response_body)
-    FakeWeb.register_uri(:post, "http://oneapi-test.infobip.com/2fa/1/pin",  response: api_send_pin_response)
-    FakeWeb.register_uri(:post, "http://oneapi-test.infobip.com/2fa/1/pin/2B29B71922B37D3C93F8CEBB85B9E3CF/verify", response: api_verify_pin_response)
-
+    FakeWeb.register_uri(:post, "https://ippdok:4%40SkK2*_@oneapi.infobip.com/2fa/1/api-key",  status: ["200", "OK"], body: api_key_response_body)
+    FakeWeb.register_uri(:post, "https://oneapi.infobip.com/2fa/1/pin",  response: api_send_pin_response)
+    FakeWeb.register_uri(:post, "https://oneapi.infobip.com/2fa/1/pin/2B29B71922B37D3C93F8CEBB85B9E3CF/verify", response: api_verify_pin_response)
     @twofactor = Infobip::Twofactor::API.new(@configuration["username"], @configuration["password"], @configuration["url"], @configuration["message_id"], @configuration["application_id"])
   end
 
@@ -25,13 +24,13 @@ describe Infobip::Twofactor::API do
 
   it "should create a valid Send PIN request, given valid params" do
     response = subject.send_pin("48790809242")
-    expect(response[:smsStatus]).to eq "MESSAGE_SENT"
+    expect(response["smsStatus"]).to eq "MESSAGE_SENT"
   end
 
   it "should create a valid Verify PIN request, given valid params" do
     response = subject.send_pin("48790809242")
     response = subject.verify_pin("2B29B71922B37D3C93F8CEBB85B9E3CF", "1234")
-    expect(response[:verified]).to eq true
+    expect(response["verified"]).to eq true
   end
 
   context "error handling" do
