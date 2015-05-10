@@ -4,6 +4,10 @@ require 'json'
 
 module Infobip
   module Twofactor
+
+    API_HOST     = "oneapi.infobip.com"
+    API_ENDPOINT = "/2fa/1"
+
     class API
 
       attr_reader :api_key
@@ -15,13 +19,10 @@ module Infobip
         raise(ArgumentError, "Missing application_id") unless application_id
         @message_id = message_id
         @application_id = application_id
-        @url = url
-        uri = URI.parse(@url + "/api-key")
-        @http = Net::HTTP.new(uri.host, 443)
+        @http = Net::HTTP.new(API_HOST, 443)
         @http.use_ssl = true
-        request = Net::HTTP::Post.new(uri.path)
+        request = prepare_request(:post, "/api-key")
         request.basic_auth(username, password)
-        request["content-type"] = "application/json"
         @api_key = @http.request(request).body.gsub('"','')
       end
 
@@ -29,11 +30,11 @@ module Infobip
         raise(ArgumentError, "Missing phone number") unless phone
         raise(ArgumentError, "Missing message_id") unless @message_id
         raise(ArgumentError, "Missing application_id") unless @application_id
-        uri = URI.parse(@url + "/pin")
-        request = Net::HTTP::Post.new(uri.path)
-        request["authorization"] = "App #{@api_key}"
-        request["content-type"] = "application/json"
-        request.body = { applicationId: @application_id, messageId: @message_id, to: phone }.to_json
+        request = prepare_request(:post, "/pin", {
+          applicationId: @application_id,
+          messageId: @message_id,
+          to: phone
+        })
         response = @http.request(request)
         response_hash = JSON.parse(response.body)
 
@@ -48,12 +49,8 @@ module Infobip
       end
 
       def verify_pin(pin_id, pin)
-        raise("Missing pin id") unless pin_id
-        uri = URI.parse(@url + "/pin/#{pin_id}/verify")
-        request = Net::HTTP::Post.new(uri.path)
-        request["content-type"] = "application/json"
-        request["authorization"] = "App #{@api_key}"
-        request.body = { pin: pin }.to_json
+        raise("Missing pin ID") unless pin_id
+        request = prepare_request(:post, "/pin/#{pin_id}/verify", { pin: pin })
         response = @http.request(request)
         response_hash = JSON.parse(response.body)
 
@@ -77,6 +74,23 @@ module Infobip
         else
           raise("Unexpected response code: #{response.code}")
         end
+      end
+
+      def prepare_request(method, path, body_hash = nil)
+        class_name = "Net::HTTP::" + method.to_s.capitalize
+        class_const = Module.const_get(class_name)
+        request = class_const.new(API_ENDPOINT + path)
+        request["Content-type"] = "application/json"
+
+        unless @api_key.nil?
+          request["Authorization"] = "App #{@api_key}"
+        end
+
+        unless body_hash.nil?
+          request.body = body_hash.to_json
+        end
+
+        return request
       end
     end
   end
