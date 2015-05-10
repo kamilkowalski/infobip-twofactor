@@ -14,7 +14,7 @@ module Infobip
       attr_reader :application_id
       attr_reader :message_id
 
-      def initialize(username, password, url, message_id, application_id)
+      def initialize(username, password, message_id, application_id)
         raise(ArgumentError, "Missing message_id") unless message_id
         raise(ArgumentError, "Missing application_id") unless application_id
         @message_id = message_id
