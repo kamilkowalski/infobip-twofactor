@@ -12,7 +12,7 @@ describe Infobip::Twofactor::API do
     FakeWeb.register_uri(:post, "https://ippdok:4%40SkK2*_@oneapi.infobip.com/2fa/1/api-key",  status: ["200", "OK"], body: api_key_response_body)
     FakeWeb.register_uri(:post, "https://oneapi.infobip.com/2fa/1/pin",  response: api_send_pin_response)
     FakeWeb.register_uri(:post, "https://oneapi.infobip.com/2fa/1/pin/2B29B71922B37D3C93F8CEBB85B9E3CF/verify", response: api_verify_pin_response)
-    @twofactor = Infobip::Twofactor::API.new(@configuration["username"], @configuration["password"], @configuration["url"], @configuration["message_id"], @configuration["application_id"])
+    @twofactor = Infobip::Twofactor::API.new(@configuration["username"], @configuration["password"], @configuration["message_id"], @configuration["application_id"])
   end
 
   subject { @twofactor }
