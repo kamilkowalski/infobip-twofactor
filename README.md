@@ -26,9 +26,7 @@ Or install it yourself as:
 
 ```ruby
 require 'infobip/twofactor'
-@twofactor = Infobip::Twofactor::API.new("username", "password", "http://oneapi-test.infobip.com/2fa/1", "message_id", "application_id")
-
- => #<Infobip::Twofactor::API:0x007fcce1e7efe0 @authorization_string="aXBwZ4r3rOjRA34tLMipf", @auth=#<Crib::API:0x007fcce1e7ee78 @_agent=<Sawyer::Agent http://oneapi-test.infobip.com/2fa/1>, @_last_response=#<Sawyer::Response: 200 @rels={} @data="\"d02f4d9a2d9fb5a70b827819823254b8-9d48e592-db4a-4a70-95f0-59b3449f48d4\"">>, @api_key="d02f4d9a2d9fb5a723827819823254b8-9d48e592-db4a-4a70-95f0-59b5a49f4edd4", @api=#<Crib::API:0x007fcce1f8c0b8 @_agent=<Sawyer::Agent http://oneapi-test.infobip.com/2fa/1>>>
+@twofactor = Infobip::Twofactor::API.new("username", "password", "message_id", "application_id")
 
 @twofactor.send_pin("phone")
 
